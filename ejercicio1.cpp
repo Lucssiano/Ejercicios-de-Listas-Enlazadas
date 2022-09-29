@@ -1,7 +1,7 @@
 /* 1)  Se tiene ordenada por código de producto una lista simplemente enlazada donde cada nodo
 contiene: código, descripción, importe y stock.
 Hacer funciones para:
-a. dado un entero K, imprimir el k-ésimo elemento.
+a. dado un entero K, imprimir el k-ésimo elemento. // cuando dice dado es que viene de afuera, la funcion tiene que recibirlo como parámetro
 b. incrementar en un 10% el importe de un producto dado su código.
 c. devolver el stock de un producto dado ó cero si no se lo encuentra. */
 
@@ -25,9 +25,9 @@ struct Nodo
 void insertar(Nodo *&lista, Producto prod);
 void listar(Nodo *lista);
 Nodo *buscarMejor(Nodo *lista, int cod);
-void puntoA(Nodo *lista);
-void puntoB(Nodo *lista);
-void puntoC(Nodo *lista);
+void puntoA(Nodo *lista, int num);
+void puntoB(Nodo *lista, int cod);
+void puntoC(Nodo *lista, int cod);
 
 int main()
 {
@@ -50,22 +50,29 @@ int main()
   }
   // listar(listaProductos);
 
-  puntoA(listaProductos);
-  puntoB(listaProductos);
-  puntoC(listaProductos);
+  int k;
+  cout << "Ingrese un entero: ";
+  cin >> k;
+  puntoA(listaProductos, k);
+
+  int codigo;
+  cout << "Ingrese el codigo del producto a incrementar un 10% su importe: ";
+  cin >> codigo;
+  puntoB(listaProductos, codigo);
+
+  cout << "Ingrese el codigo del producto a consultar stock: ";
+  cin >> codigo;
+  puntoC(listaProductos, codigo);
 
   return 0;
 }
 
-void puntoA(Nodo *lista)
+void puntoA(Nodo *lista, int num)
 {
-  int k;
-  cout << "Ingrese un entero: ";
-  cin >> k;
 
   Nodo *p = lista;
   int i = 1;
-  while (p != NULL && i < k)
+  while (p != NULL && i < num)
   {
     p = p->sig;
     i++;
@@ -77,12 +84,9 @@ void puntoA(Nodo *lista)
   cout << p->info.stock << endl;
 }
 
-void puntoB(Nodo *lista)
+void puntoB(Nodo *lista, int cod)
 {
-  int codigo;
-  cout << "Ingrese el codigo del producto a incrementar un 10% su importe: ";
-  cin >> codigo;
-  Nodo *p = buscarMejor(lista, codigo);
+  Nodo *p = buscarMejor(lista, cod);
   if (p == NULL)
     cout << "No hay un producto con ese codigo" << endl;
   else
@@ -91,12 +95,9 @@ void puntoB(Nodo *lista)
   cout << p->info.imp << endl;
 }
 
-void puntoC(Nodo *lista)
+void puntoC(Nodo *lista, int cod)
 {
-  int codigo;
-  cout << "Ingrese el codigo del producto a consultar stock: ";
-  cin >> codigo;
-  Nodo *p = buscarMejor(lista, codigo);
+  Nodo *p = buscarMejor(lista, cod);
   if (p == NULL)
     cout << 0 << ", no se encontró el producto" << endl;
   else

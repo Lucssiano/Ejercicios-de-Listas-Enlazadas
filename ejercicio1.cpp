@@ -24,11 +24,15 @@ struct Nodo
 
 void insertar(Nodo *&lista, Producto prod);
 void listar(Nodo *lista);
+Nodo *buscarMejor(Nodo *lista, int cod);
+void puntoA(Nodo *lista);
+void puntoB(Nodo *lista);
+void puntoC(Nodo *lista);
 
 int main()
 {
   Producto prod;
-  Nodo *lProductos = NULL;
+  Nodo *listaProductos = NULL;
   cout << "Ingrese el codigo del producto: ";
   cin >> prod.cod;
   while (prod.cod != 0)
@@ -37,23 +41,78 @@ int main()
     cin >> prod.imp;
     cout << "Ingrese el stock del producto: ";
     cin >> prod.stock;
-    cout << "Ingrese el codigo del producto: ";
+    cout << "Ingrese una descripcion del producto: ";
     fflush(stdin);
     cin.getline(prod.descrip, 36);
-    insertar(lProductos, prod);
+    insertar(listaProductos, prod);
     cout << "Ingrese el codigo del producto: ";
     cin >> prod.cod;
   }
-  listar(lAlumnos);
+  // listar(listaProductos);
 
-  puntoA();
-  // puntoB();
-  // puntoC();
+  puntoA(listaProductos);
+  puntoB(listaProductos);
+  puntoC(listaProductos);
+
   return 0;
 }
 
-void puntoA()
+void puntoA(Nodo *lista)
 {
+  int k;
+  cout << "Ingrese un entero: ";
+  cin >> k;
+
+  Nodo *p = lista;
+  int i = 1;
+  while (p != NULL && i < k)
+  {
+    p = p->sig;
+    i++;
+  }
+
+  cout << p->info.cod << endl;
+  cout << p->info.descrip << endl;
+  cout << p->info.imp << endl;
+  cout << p->info.stock << endl;
+}
+
+void puntoB(Nodo *lista)
+{
+  int codigo;
+  cout << "Ingrese el codigo del producto a incrementar un 10% su importe: ";
+  cin >> codigo;
+  Nodo *p = buscarMejor(lista, codigo);
+  if (p == NULL)
+    cout << "No hay un producto con ese codigo" << endl;
+  else
+    p->info.imp = p->info.imp + (p->info.imp / 10);
+
+  cout << p->info.imp << endl;
+}
+
+void puntoC(Nodo *lista)
+{
+  int codigo;
+  cout << "Ingrese el codigo del producto a consultar stock: ";
+  cin >> codigo;
+  Nodo *p = buscarMejor(lista, codigo);
+  if (p == NULL)
+    cout << 0 << ", no se encontró el producto" << endl;
+  else
+    cout << p->info.stock << endl;
+}
+
+Nodo *buscarMejor(Nodo *lista, int cod)
+{
+  Nodo *p;
+  p = lista;
+  while (p != NULL && p->info.cod < cod)
+    p = p->sig;
+  if (p == NULL || p->info.cod != cod)
+    return NULL;
+  else
+    return p;
 }
 
 void listar(Nodo *lista)
@@ -71,9 +130,9 @@ void insertar(Nodo *&lista, Producto prod)
 {
   Nodo *q, *p, *ant;
   q = new Nodo;
-  q->info = alu;
+  q->info = prod;
   p = lista;
-  while (p != NULL && p->info.leg < alu.leg)
+  while (p != NULL && p->info.cod < prod.cod)
   {
     ant = p;
     p = p->sig;
@@ -84,15 +143,3 @@ void insertar(Nodo *&lista, Producto prod)
   else
     lista = q;
 }
-
-// Nodo *buscarMejor(Nodo *lista, int unLeg)
-// {
-//   Nodo *p;
-//   p = lista;
-//   while (p != NULL && p->info.leg < unLeg)
-//     p = p->sig;
-//   if (p == NULL || p->info.leg != unLeg)
-//     return NULL;
-//   else
-//     return p;
-// }

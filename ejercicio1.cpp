@@ -69,7 +69,6 @@ int main()
 
 void puntoA(Nodo *lista, int num)
 {
-
   Nodo *p = lista;
   int i = 1;
   while (p != NULL && i < num)

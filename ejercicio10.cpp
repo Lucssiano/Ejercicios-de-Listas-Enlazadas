@@ -4,7 +4,6 @@ función que dada la estructura informe número de documento, nombre y promedio 
 alumno.*/
 
 #include <iostream>
-#include <stdio.h>
 #include <string.h>
 
 using namespace std;

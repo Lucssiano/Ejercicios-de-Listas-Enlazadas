@@ -3,7 +3,6 @@ diferentes manufacturados en dos fábricas, se pide hacer una función que devue
 ordenada por código de producto conteniendo la totalidad de la información */
 
 #include <iostream>
-#include <stdio.h>
 #include <string.h>
 
 using namespace std;

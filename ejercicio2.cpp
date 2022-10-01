@@ -23,28 +23,30 @@ struct Nodo
   Nodo *sig;
 };
 
-void puntoA(Nodo *lista, Persona pers);
-void puntoB(Nodo *lista, Persona pers);
+void puntoA(Nodo *&lista, Persona pers);
+bool puntoB(Nodo *&lista, int dni);
 void puntoC(Nodo *lista);
-// void puntoD(Nodo *lista);
-// bool eliminar(Nodo *&lista, int unLeg);
-// void insertar(Nodo *&lista, Producto prod);
+void puntoD(Nodo *lista);
+void apilar(Nodo *&pila, Persona pers);
+void desapilar(Nodo *&pila, Persona &pers);
 
 int main()
 {
   Persona pj;
   Nodo *listaPersonas = NULL;
 
-  /* PARA ARMAR LA LISTA DE LAS PERSONAS INSCRIPTAS EN UN CURSO */
-  // cout << "Ingrese el DNI de la persona inscripta al curso (0 para finalizar): ";
-  // cin >> pj.dni;
-  // while (pj.dni != 0)
-  // {
-  //   cout << "Ingrese el nombre de la persona inscripta al curso: ";
-  //   cin >> pj.nombre;
-  //   cout << "Ingrese el DNI de la persona inscripta al curso (0 para finalizar): ";
-  //   cin >> pj.dni;
-  // }
+  /* PARA ARMAR LA LISTA DE LAS PERSONAS INSCRIPTAS EN UN CURSO (OPCIONAL) */
+  cout << "ARMANDO LA LISTA" << endl;
+  cout << "Ingrese el DNI de la persona a agregar a la lista (0 para finalizar): ";
+  cin >> pj.dni;
+  while (pj.dni != 0)
+  {
+    cout << "Ingrese el nombre de la persona a agregar a la lista: ";
+    cin >> pj.nombre;
+    puntoA(listaPersonas, pj);
+    cout << "Ingrese el DNI de la persona a agregar a la lista (0 para finalizar): ";
+    cin >> pj.dni;
+  }
   /* ################## */
 
   cout << "Ingrese el nombre de la persona inscripta al curso: ";
@@ -52,34 +54,28 @@ int main()
   cout << "Ingrese el DNI de la persona inscripta al curso: ";
   cin >> pj.dni;
   puntoA(listaPersonas, pj);
-  cout << "Ingrese el nombre de la persona que se dara de baja al curso: ";
-  cin >> pj.nombre;
+
   cout << "Ingrese el DNI de la persona que se dara de baja al curso: ";
   cin >> pj.dni;
-  puntoB(listaPersonas, pj);
+  if (puntoB(listaPersonas, pj.dni))
+    cout << "El alumno de DNI " << pj.dni << " fue dado de baja de forma exitosa" << endl;
+  else
+    cout << "No existe un alumno con ese DNI en la lista" << endl;
+
   puntoC(listaPersonas);
-  // puntoD();
+
+  puntoD(listaPersonas);
+
   return 0;
 }
 
-void puntoC(Nodo *lista) // Funcion listar
-{
-  Nodo *p;
-  p = lista;
-  while (p != NULL)
-  {
-    cout << p->info.dni << "  " << p->info.nombre << endl;
-    p = p->sig;
-  }
-}
-
-void insertar(Nodo *&lista, Producto prod)
+void puntoA(Nodo *&lista, Persona pers) // Función insertar
 {
   Nodo *q, *p, *ant;
   q = new Nodo;
-  q->info = prod;
+  q->info = pers;
   p = lista;
-  while (p != NULL && p->info.cod < prod.cod)
+  while (p != NULL && p->info.dni < pers.dni)
   {
     ant = p;
     p = p->sig;
@@ -91,11 +87,12 @@ void insertar(Nodo *&lista, Producto prod)
     lista = q;
 }
 
-bool eliminar(Nodo *&lista, int unLeg)
+bool puntoB(Nodo *&lista, int dni) // Función eliminar
 {
   Nodo *p, *ant;
   p = lista;
-  while (p != NULL && p->info.leg != unLeg)
+
+  while (p != NULL && p->info.dni != dni)
   {
     ant = p;
     p = p->sig;
@@ -112,5 +109,56 @@ bool eliminar(Nodo *&lista, int unLeg)
   }
   else
     return false;
-  // cout<<"no existe";
+}
+
+void puntoC(Nodo *lista) // Función listar
+{
+  Nodo *p;
+  p = lista;
+  while (p != NULL)
+  {
+    cout << p->info.dni << "  " << p->info.nombre << endl;
+    p = p->sig;
+  }
+}
+
+void puntoD(Nodo *lista) // Funcion listar usando una pila para mostrar la lista en orden inverso
+{
+  Nodo *pilaAlumnos = NULL;
+
+  Nodo *p;
+  p = lista;
+  while (p != NULL)
+  {
+    apilar(pilaAlumnos, p->info);
+    p = p->sig;
+  }
+
+  while (pilaAlumnos != NULL)
+  {
+    desapilar(pilaAlumnos, pilaAlumnos->info);
+    cout << pilaAlumnos->info.dni << "  " << pilaAlumnos->info.nombre << endl;
+  }
+}
+
+void apilar(Nodo *&pila, Persona pers)
+{
+  Nodo *p = new Nodo;
+  p->info = pers;
+  p->sig = pila;
+  pila = p;
+}
+
+void desapilar(Nodo *&pila, Persona &pers)
+{
+  if (pila == NULL)
+    cout << "ERROR, la pila esta vacia" << endl;
+  else
+  {
+    Nodo *p;
+    p = pila;
+    pers = p->info;
+    pila = p->sig;
+    delete p;
+  }
 }

@@ -4,7 +4,6 @@ complete los punteros convenientemente incluyendo el puntero externo para recorr
 hacia adelante. */
 
 #include <iostream>
-#include <stdio.h>
 #include <string.h>
 
 using namespace std;

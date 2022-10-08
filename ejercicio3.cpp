@@ -42,6 +42,7 @@ int main()
   /* ################## */
 
   ordenarAlfabeticamente(listaPersonas);
+  listar(listaPersonas);
 
   return 0;
 }
@@ -57,7 +58,6 @@ void ordenarAlfabeticamente(Nodo *&lista)
     insertarLogicamente(listaOrd, r);
   }
   lista = listaOrd;
-  listar(lista); // Está bien hacer esto? Porque el ejercicio dice que tiene que devolver la lista
 }
 
 void insertarLogicamente(Nodo *&lista, Nodo *n)

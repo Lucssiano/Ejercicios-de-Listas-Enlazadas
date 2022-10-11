@@ -123,13 +123,15 @@ void mostrarDesc(Nodo *l)
 
 // void eliminarNodos(Nodo *&lis2, int cantNodos)
 // {
-//   Nodo *p, *q;
-//   int i = 0;
-//   while (i < cantNodos)
+//   Nodo *p = lis2, *q;
+
+//   for (int i = 0; i < cantNodos; i++) // si cantNodos es mayor o igual a la cantidad de nodos de la lista, se rompe
 //   {
-//     p = lis2;
-//     delete p;
-//     lis2 = lis2->ant;
-//     i++;
+//     q = p;
+//     p = p->ant;
+//     p->sig = NULL;
+//     delete q;
+//     cout << i;
 //   }
+//   lis2 = p;
 // }

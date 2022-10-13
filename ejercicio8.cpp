@@ -15,7 +15,7 @@ struct Nodo
 void mostrarAsc(Nodo *l);
 void mostrarDesc(Nodo *l);
 void insertar(Nodo *&lis1, Nodo *&lis2, int nro);
-void eliminarNodos(Nodo *&lis2, int cantNodos);
+void eliminarNodos(Nodo *&lis1, Nodo *&lis2, int cantNodos);
 
 int main()
 {
@@ -33,7 +33,7 @@ int main()
   cout << "Ingrese la cantidad de nodos a eliminar: ";
   cin >> cantNodosAEliminar;
 
-  eliminarNodos(listaD2, cantNodosAEliminar);
+  eliminarNodos(listaD1, listaD2, cantNodosAEliminar);
 
   cout << "salio ";
 
@@ -43,17 +43,22 @@ int main()
   return 0;
 }
 
-void eliminarNodos(Nodo *&lis2, int cantNodos)
+void eliminarNodos(Nodo *&lis1, Nodo *&lis2, int cantNodos)
 {
   Nodo *p;
 
-  for (int i = 0; i < cantNodos; i++) // si cantNodos es mayor o igual a la cantidad de nodos de la lista, se rompe
+  int i = 0;
+  while (lis2 != NULL && i < cantNodos)
   {
     p = lis2;
     lis2 = p->ant;
-    lis2->sig = NULL;
     delete p;
+    i++;
   }
+  if (lis2 != NULL)
+    lis2->sig = NULL;
+  else
+    lis1 = NULL;
 }
 
 void insertar(Nodo *&lis1, Nodo *&lis2, int nro)
